@@ -10,9 +10,9 @@ _A service for aggregating RSS feeds that makes it easy to read a variety of sou
 
 ## <center>To install and serve</center>
 
-    * make install
-    * make develop
-    * make build
+     make install
+     make develop
+     make build
 
 ## <center>In order to go to the website</center>
 
