@@ -16,4 +16,4 @@ _A service for aggregating RSS feeds that makes it easy to read a variety of sou
 
 ## <center>In order to go to the website</center>
 
-[website](frontend-project-11-blue-two.vercel.app)
+[Click here](https://frontend-project-11-blue-two.vercel.app)
