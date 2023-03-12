@@ -1,1 +1,13 @@
-@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap';
+
+#url-input {
+  min-width: 192px;
+}
+
+.btn-lg {
+  width: 192px;
+}
+
+.spinner {
+  width: 24px;
+}

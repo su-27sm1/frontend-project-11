@@ -1,9 +1,10 @@
 export default (content) => {
   const parser = new DOMParser();
   const xmlDocument = parser.parseFromString(content, 'text/xml');
-  const rootTagName = xmlDocument.documentElement.tagName.toLowerCase();
-  if (rootTagName !== 'rss') {
-    throw new Error('noRSS');
+  const parserErrors = xmlDocument.querySelector('parsererror');
+  if (parserErrors !== null) {
+    const error = parserErrors.textContent;
+    throw new Error(error);
   }
 
   const channel = xmlDocument.querySelector('channel');
