@@ -1,4 +1,3 @@
-/* eslint-disable comma-dangle */
 export default (content) => {
   const parser = new DOMParser();
   const xmlDocument = parser.parseFromString(content, 'text/xml');

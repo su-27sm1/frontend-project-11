@@ -1,8 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable function-paren-newline */
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable comma-dangle */
-/* eslint-disable operator-linebreak */
 import { string, setLocale } from 'yup';
 import onChange from 'on-change';
 import axios from 'axios';
@@ -24,7 +19,7 @@ const getResponse = (url) => {
 };
 
 const validate = (newURL, listAddedURLs) => {
-  const schema = string().url().notOneOf(listAddedURLs).trim();
+  const schema = string().url().notOneOf(listAddedURLs);
   return schema.validate(newURL);
 };
 

@@ -9,4 +9,9 @@ parserOptions:
 rules:
   import/extensions: 0
   no-param-reassign: 0
+  import/no-extraneous-dependencies: off
+  function-paren-newline: off
+  implicit-arrow-linebreak: off
+  comma-dangle: off
+  operator-linebreak: off
   no-console: 0

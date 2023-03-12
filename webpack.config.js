@@ -7,7 +7,7 @@ export default {
   mode: process.env.NODE_ENV || 'development',
   entry: './src/index.js',
   output: {
-    path: path.resolve(fileURLToPath(import.meta.url), '..', 'dist'),
+    path: path.resolve(fileURLToPath(import.meta.url), 'dist'),
   },
   devServer: {
     open: true,

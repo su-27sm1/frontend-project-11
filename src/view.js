@@ -1,4 +1,3 @@
-/* eslint-disable comma-dangle */
 const renderPosts = (state, i18nInstance, card) => {
   const groupList = document.createElement('ul');
   groupList.classList.add('list-group', 'border-0', 'rounded-0');
