@@ -10,11 +10,16 @@ import parseRSS from './utilities/parser.js';
 const language = 'en';
 const timeout = 5000;
 
-const getResponse = (url) => {
+const prepareUrl = (url) => {
   const allOrigins = 'https://allorigins.hexlet.app/get';
   const preparedURL = new URL(allOrigins);
   preparedURL.searchParams.set('disableCache', 'true');
   preparedURL.searchParams.set('url', url);
+  return preparedURL;
+};
+
+const getResponse = (url) => {
+  const preparedURL = prepareUrl(url);
   return axios.get(preparedURL);
 };
 
