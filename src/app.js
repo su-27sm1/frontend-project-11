@@ -28,10 +28,6 @@ const validate = (newURL, listAddedURLs) => {
   return schema.validate(newURL);
 };
 
-const addFeeds = (id, parsedFeed, link, watchedState) => {
-  watchedState.uploadedData.feeds.push({ ...parsedFeed, id, link });
-};
-
 const addPosts = (feedId, posts, watchedState) => {
   const preparedPosts = posts.map((post) => ({
     ...post,
@@ -152,7 +148,12 @@ export default () => {
             const parsedRSS = parseRSS(response.data.contents);
             const feedId = uniqueId();
 
-            addFeeds(feedId, parsedRSS.feed, state.inputData, watchedState);
+            watchedState.uploadedData.feeds.push({
+              ...parsedRSS,
+              id: uniqueId(),
+              link: state.inputData,
+            });
+
             addPosts(feedId, parsedRSS.posts, watchedState);
 
             postsUpdate(feedId, watchedState);
