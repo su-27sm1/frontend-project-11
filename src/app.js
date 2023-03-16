@@ -7,7 +7,7 @@ import render from './view.js';
 import resource from './locales/index.js';
 import parseRSS from './utilities/parser.js';
 
-const language = 'en';
+const language = 'ru';
 const timeout = 5000;
 
 const prepareUrl = (url) => {
