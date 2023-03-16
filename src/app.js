@@ -40,6 +40,7 @@ const addPosts = (feedId, posts, watchedState) => {
 };
 
 const postsUpdate = (feedId, watchedState) => {
+  // eslint-disable-next-line no-unused-vars
   const inner = () => {
     const linkesFeed = watchedState.uploadedData.feeds.map(({ link }) =>
       getResponse(link)
@@ -74,7 +75,6 @@ const postsUpdate = (feedId, watchedState) => {
         setTimeout(inner, timeout);
       });
   };
-  setTimeout(inner, timeout);
 };
 
 export default () => {
@@ -130,6 +130,10 @@ export default () => {
         render(state, elements, i18nInstance)
       );
 
+      watchedState.uploadedData.feeds.forEach((feed) => {
+        postsUpdate(feed.id, watchedState);
+      });
+
       elements.form.addEventListener('input', (e) => {
         e.preventDefault();
         watchedState.inputData = e.target.value;
@@ -155,8 +159,6 @@ export default () => {
             });
 
             addPosts(feedId, parsedRSS.posts, watchedState);
-
-            postsUpdate(feedId, watchedState);
 
             watchedState.processOfAddingRss.state = 'finished';
           })
