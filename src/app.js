@@ -7,7 +7,7 @@ import render from './view.js';
 import resource from './locales/index.js';
 import parseRSS from './utilities/parser.js';
 
-const language = 'ru';
+const defaultLanguage = 'ru';
 const timeout = 5000;
 
 const prepareUrl = (url) => {
@@ -81,7 +81,7 @@ export default () => {
   const i18nInstance = i18next.createInstance();
   i18nInstance
     .init({
-      lng: language,
+      lng: defaultLanguage,
       debug: false,
       resources: resource,
     })
