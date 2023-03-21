@@ -8,7 +8,7 @@ import resource from './locales/index.js';
 import parseRSS from './utilities/parser.js';
 
 const defaultLanguage = 'ru';
-const timeout = 5000;
+let timeout = 5000;
 
 const prepareUrl = (url) => {
   const allOrigins = 'https://allorigins.hexlet.app/get';
@@ -39,9 +39,15 @@ const addPosts = (feedId, posts, watchedState) => {
   );
 };
 
-const postsUpdate = (feedId, watchedState) => {
-  // eslint-disable-next-line no-unused-vars
+const DEFAULT_TIMEOUT = 5000; // время задержки между запросами
+
+const postsUpdate = (watchedState) => {
   const inner = () => {
+    const currentFeed = watchedState.uploadedData.feeds.find(
+      (feed) => feed.link === watchedState.currentFeedLink
+    );
+    timeout = currentFeed?.updateTimeout || DEFAULT_TIMEOUT;
+
     const linkesFeed = watchedState.uploadedData.feeds.map(({ link }) =>
       getResponse(link)
     );
@@ -67,7 +73,14 @@ const postsUpdate = (feedId, watchedState) => {
           ({ link }) => !linkPosts.includes(link)
         );
         if (newPosts.length > 0) {
-          addPosts(feedId, newPosts, watchedState);
+          // Добавляем новые посты в соответствующий фид в состоянии
+          watchedState.uploadedData.feeds.forEach((feed) => {
+            if (feed.link === watchedState.currentFeedLink) {
+              feed.posts = [...feed.posts, ...newPosts];
+            }
+          });
+          // Обновляем состояние
+          watchedState.updateState();
         }
       })
       .catch(console.error)
@@ -75,6 +88,8 @@ const postsUpdate = (feedId, watchedState) => {
         setTimeout(inner, timeout);
       });
   };
+
+  inner();
 };
 
 export default () => {
@@ -163,8 +178,7 @@ export default () => {
             watchedState.processOfAddingRss.state = 'finished';
           })
           .catch((err) => {
-            watchedState.processOfAddingRss.error =
-              err.message ?? 'defaultError';
+            watchedState.processOfAddingRss.err = err.message ?? 'defaultError';
             watchedState.processOfAddingRss.state = 'failed';
           });
       });
