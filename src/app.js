@@ -177,9 +177,9 @@ export default () => {
 
             watchedState.processOfAddingRss.state = 'finished';
           })
-          .catch((error) => {
+          .catch((err) => {
             watchedState.processOfAddingRss.error =
-              error.message ?? 'defaultError';
+              err.message ?? 'defaultError';
             watchedState.processOfAddingRss.state = 'failed';
           });
       });
