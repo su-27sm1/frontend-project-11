@@ -4,28 +4,27 @@ import axios from 'axios';
 import i18next from 'i18next';
 import { uniqueId, flatten } from 'lodash';
 import render from './view.js';
-import resource from './locales/index.js';
+import resources from './locales/index.js';
 import parseRSS from './utilities/parser.js';
 
 const defaultLanguage = 'ru';
-let timeout = 5000;
+const timeout = 5000;
 
-const prepareUrl = (url) => {
-  const allOrigins = 'https://allorigins.hexlet.app/get';
-  const preparedURL = new URL(allOrigins);
+const getAxiosResponse = (url) => {
+  const allOriginsLink = 'https://allorigins.hexlet.app/get';
+  const preparedURL = new URL(allOriginsLink);
   preparedURL.searchParams.set('disableCache', 'true');
   preparedURL.searchParams.set('url', url);
-  return preparedURL;
-};
-
-const getResponse = (url) => {
-  const preparedURL = prepareUrl(url);
   return axios.get(preparedURL);
 };
 
 const validate = (newURL, listAddedURLs) => {
-  const schema = string().url().notOneOf(listAddedURLs);
+  const schema = string().url().notOneOf(listAddedURLs).trim();
   return schema.validate(newURL);
+};
+
+const addFeeds = (id, parsedFeed, link, watchedState) => {
+  watchedState.uploadedData.feeds.push({ ...parsedFeed, id, link });
 };
 
 const addPosts = (feedId, posts, watchedState) => {
@@ -39,17 +38,10 @@ const addPosts = (feedId, posts, watchedState) => {
   );
 };
 
-const DEFAULT_TIMEOUT = 5000; // время задержки между запросами
-
-const postsUpdate = (watchedState) => {
+const postsUpdate = (feedId, watchedState) => {
   const inner = () => {
-    const currentFeed = watchedState.uploadedData.feeds.find(
-      (feed) => feed.link === watchedState.currentFeedLink
-    );
-    timeout = currentFeed?.updateTimeout || DEFAULT_TIMEOUT;
-
     const linkesFeed = watchedState.uploadedData.feeds.map(({ link }) =>
-      getResponse(link)
+      getAxiosResponse(link)
     );
 
     Promise.allSettled(linkesFeed)
@@ -73,14 +65,7 @@ const postsUpdate = (watchedState) => {
           ({ link }) => !linkPosts.includes(link)
         );
         if (newPosts.length > 0) {
-          // Добавляем новые посты в соответствующий фид в состоянии
-          watchedState.uploadedData.feeds.forEach((feed) => {
-            if (feed.link === watchedState.currentFeedLink) {
-              feed.posts = [...feed.posts, ...newPosts];
-            }
-          });
-          // Обновляем состояние
-          watchedState.updateState();
+          addPosts(feedId, newPosts, watchedState);
         }
       })
       .catch(console.error)
@@ -88,8 +73,7 @@ const postsUpdate = (watchedState) => {
         setTimeout(inner, timeout);
       });
   };
-
-  inner();
+  setTimeout(inner, timeout);
 };
 
 export default () => {
@@ -98,7 +82,7 @@ export default () => {
     .init({
       lng: defaultLanguage,
       debug: false,
-      resources: resource,
+      resources,
     })
     .then(() => {
       const elements = {
@@ -145,10 +129,6 @@ export default () => {
         render(state, elements, i18nInstance)
       );
 
-      watchedState.uploadedData.feeds.forEach((feed) => {
-        postsUpdate(feed.id, watchedState);
-      });
-
       elements.form.addEventListener('input', (e) => {
         e.preventDefault();
         watchedState.inputData = e.target.value;
@@ -161,19 +141,16 @@ export default () => {
         validate(state.inputData, listAddedURLs)
           .then(() => {
             watchedState.processOfAddingRss.state = 'sending';
-            return getResponse(state.inputData);
+            return getAxiosResponse(state.inputData);
           })
           .then((response) => {
             const parsedRSS = parseRSS(response.data.contents);
             const feedId = uniqueId();
 
-            watchedState.uploadedData.feeds.push({
-              ...parsedRSS,
-              id: uniqueId(),
-              link: state.inputData,
-            });
-
+            addFeeds(feedId, parsedRSS.feed, state.inputData, watchedState);
             addPosts(feedId, parsedRSS.posts, watchedState);
+
+            postsUpdate(feedId, watchedState);
 
             watchedState.processOfAddingRss.state = 'finished';
           })
