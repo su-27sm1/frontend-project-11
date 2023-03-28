@@ -1,8 +1,8 @@
-export default (content) => {
+export default (contents) => {
   const domParser = new DOMParser();
-  const xmlDocument = domParser.parseFromString(content, 'text/xml');
-  const parserErrors = xmlDocument.documentElement.tagName.toLowerCase();
-  if (parserErrors !== null) {
+  const xmlDocument = domParser.parseFromString(contents, 'text/xml');
+  const rootTagName = xmlDocument.documentElement.tagName.toLowerCase();
+  if (rootTagName !== 'rss') {
     throw new Error('noRSS');
   }
 
@@ -14,10 +14,10 @@ export default (content) => {
   const feed = { title: channelTitle, description: channelDescription };
 
   const itemElements = channel.getElementsByTagName('item');
-  const posts = [...itemElements].map((post) => {
-    const title = post.querySelector('title').textContent;
-    const description = post.querySelector('description').textContent;
-    const link = post.querySelector('channel link').textContent;
+  const posts = [...itemElements].map((item) => {
+    const title = item.querySelector('title').textContent;
+    const description = item.querySelector('description').textContent;
+    const link = item.querySelector('channel link').textContent;
     return {
       title,
       description,
