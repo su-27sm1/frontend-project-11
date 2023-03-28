@@ -3,8 +3,7 @@ export default (content) => {
   const xmlDocument = parser.parseFromString(content, 'text/xml');
   const parserErrors = xmlDocument.querySelector('parsererror');
   if (parserErrors !== null) {
-    const error = parserErrors.textContent;
-    throw new Error(error);
+    throw new Error('error');
   }
 
   const channel = xmlDocument.querySelector('channel');
