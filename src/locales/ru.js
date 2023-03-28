@@ -7,7 +7,7 @@ export default {
     errors: {
       rssAlreadyExists: 'RSS уже существует',
       notValidURL: 'Ссылка должна быть с валидным URL',
-      dataIsNotValid: 'Введенные данные невалидны',
+      dataIsNotValid: 'введенные данные невалидны',
       noRSS: 'Ресурс не содержит валидный RSS',
       NetworkError: 'Ошибка сети',
       defaultError: 'Неизвестная ошибка. Что-то пошло не так',

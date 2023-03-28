@@ -1,9 +1,10 @@
 export default (content) => {
-  const parser = new DOMParser();
-  const xmlDocument = parser.parseFromString(content, 'text/xml');
-  const parserErrors = xmlDocument.querySelector('parsererror');
+  const domParser = new DOMParser();
+  const xmlDocument = domParser.parseFromString(content, 'text/xml');
+  const parserErrors = xmlDocument.documentElement.tagName.toLowerCase();
   if (parserErrors !== null) {
-    throw new Error('error');
+    const error = parserErrors.textContent;
+    throw new Error(error);
   }
 
   const channel = xmlDocument.querySelector('channel');
