@@ -1,6 +1,6 @@
-const renderPosts = (state, i18nInstance, card) => {
-  const groupList = document.createElement('ul');
-  groupList.classList.add('list-group', 'border-0', 'rounded-0');
+const renderingPosts = (state, i18nInstance, card) => {
+  const listGroup = document.createElement('ul');
+  listGroup.classList.add('list-group', 'border-0', 'rounded-0');
   state.uploadedData.posts.forEach((post) => {
     const listGroupItem = document.createElement('li');
     listGroupItem.classList.add(
@@ -30,14 +30,14 @@ const renderPosts = (state, i18nInstance, card) => {
     button.setAttribute('data-bs-target', '#modal');
     button.textContent = i18nInstance.t('preview');
     listGroupItem.append(a, button);
-    groupList.append(listGroupItem);
+    listGroup.append(listGroupItem);
   });
-  card.append(groupList);
+  card.append(listGroup);
 };
 
-const renderFeeds = (state, card) => {
-  const groupList = document.createElement('ul');
-  groupList.classList.add('list-group', 'border-0', 'rounded-0');
+const renderingFeeds = (state, card) => {
+  const listGroup = document.createElement('ul');
+  listGroup.classList.add('list-group', 'border-0', 'rounded-0');
   state.uploadedData.feeds.forEach((feed) => {
     const listGroupItem = document.createElement('li');
     listGroupItem.classList.add('list-group-item', 'border-0', 'border-end-0');
@@ -48,9 +48,9 @@ const renderFeeds = (state, card) => {
     p.classList.add('m-0', 'small', 'text-black-50');
     p.textContent = feed.description;
     listGroupItem.append(h3, p);
-    groupList.append(listGroupItem);
+    listGroup.append(listGroupItem);
   });
-  card.append(groupList);
+  card.append(listGroup);
 };
 
 const makeContainer = (title, state, elements, i18nInstance) => {
@@ -67,19 +67,11 @@ const makeContainer = (title, state, elements, i18nInstance) => {
   card.append(cardBody);
   elements[title].append(card);
   if (title === 'feeds') {
-    renderFeeds(state, card);
+    renderingFeeds(state, card);
   }
   if (title === 'posts') {
-    renderPosts(state, i18nInstance, card);
+    renderingPosts(state, i18nInstance, card);
   }
-};
-
-const openModalWindow = (state, elements, postId) => {
-  const post = state.uploadedData.posts.find(({ id }) => postId === id);
-  const { title, description, link } = post;
-  elements.modal.title.textContent = title;
-  elements.modal.body.textContent = description;
-  elements.modal.fullArticleButton.href = link;
 };
 
 const errorHandler = (elements, err, i18nInstance) => {
@@ -108,6 +100,14 @@ const finishHandler = (state, elements, i18nInstance) => {
   elements.feedback.textContent = i18nInstance.t('rssAdded');
 };
 
+const openModalWindow = (state, elements, postId) => {
+  const post = state.uploadedData.posts.find(({ id }) => postId === id);
+  const { title, description, link } = post;
+  elements.modal.title.textContent = title;
+  elements.modal.body.textContent = description;
+  elements.modal.fullArticleButton.href = link;
+};
+
 export default (state, elements, i18nInstance) => (path, value) => {
   switch (path) {
     case 'processOfAddingRss.state':
@@ -121,14 +121,12 @@ export default (state, elements, i18nInstance) => (path, value) => {
         finishHandler(state, elements, i18nInstance);
       }
       break;
-
-    case 'posts':
-      makeContainer('posts', state, elements, i18nInstance);
-      break;
     case 'readPostIds':
       makeContainer('posts', state, elements, i18nInstance);
       break;
-
+    case 'posts':
+      makeContainer('posts', state, elements, i18nInstance);
+      break;
     case 'modalPostId':
       openModalWindow(state, elements, value);
       break;

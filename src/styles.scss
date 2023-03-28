@@ -1,13 +1,15 @@
 @import '~bootstrap';
 
+.example-url {
+  text-decoration-style: dashed;
+}
+
 #url-input {
-  min-width: 192px;
+  min-width: 12rem;
 }
 
 .btn-lg {
-  width: 192px;
+  width: 12rem;
 }
 
-.spinner {
-  width: 24px;
-}
+$spinner-width: 1.5rem;
