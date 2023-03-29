@@ -1,4 +1,4 @@
-[![hexlet-check](https://github.com/su-27sm1/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/su-27sm1/frontend-project-11/actions/workflows/hexlet-check.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/8b8f98015296a1d5504e/maintainability)](https://codeclimate.com/github/su-27sm1/frontend-project-11/maintainability)
+[![hexlet-check](https://github.com/su-27sm1/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/su-27sm1/frontend-project-11/actions/workflows/hexlet-check.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/8b8f98015296a1d5504e/maintainability)](https://codeclimate.com/github/su-27sm1/frontend-project-11/maintainability)[![Node.js CI](https://github.com/su-27sm1/frontend-project-11/actions/workflows/node.js.yml/badge.svg)](https://github.com/su-27sm1/frontend-project-11/actions/workflows/node.js.yml)
 
 # <center>RSS agregator</center>
 
