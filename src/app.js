@@ -19,7 +19,7 @@ const getAxiosResponse = (url) => {
 };
 
 const validate = (newURL, listAddedURLs) => {
-  const schema = string().url().notOneOf(listAddedURLs).trim();
+  const schema = string().url().notOneOf(listAddedURLs);
   return schema.validate(newURL);
 };
 

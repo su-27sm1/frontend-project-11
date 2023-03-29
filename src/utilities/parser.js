@@ -2,7 +2,7 @@ export default (contents) => {
   const domParser = new DOMParser();
   const xmlDocument = domParser.parseFromString(contents, 'text/xml');
   const rootTagName = xmlDocument.documentElement.tagName.toLowerCase();
-  if (rootTagName !== 'rss') {
+  if (rootTagName !== null) {
     throw new Error('noRSS');
   }
 
