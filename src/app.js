@@ -9,9 +9,9 @@ import parseRSS from './utilities/parser.js';
 
 const defaultLanguage = 'ru';
 const timeout = 5000;
+const allOriginsLink = 'https://allorigins.hexlet.app/get';
 
 const getAxiosResponse = (url) => {
-  const allOriginsLink = 'https://allorigins.hexlet.app/get';
   const preparedURL = new URL(allOriginsLink);
   preparedURL.searchParams.set('disableCache', 'true');
   preparedURL.searchParams.set('url', url);
@@ -173,5 +173,6 @@ export default () => {
           watchedState.readPostIds.add(postId);
         }
       });
-    });
+    })
+    .catch(console.error);
 };

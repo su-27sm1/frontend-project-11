@@ -7,17 +7,15 @@ export default (contents) => {
   }
 
   const channel = xmlDocument.querySelector('channel');
-  const channelTitle = xmlDocument.querySelector('channel title').textContent;
-  const channelDescription = xmlDocument.querySelector(
-    'channel description'
-  ).textContent;
+  const channelTitle = channel.querySelector('title').textContent;
+  const channelDescription = channel.querySelector('description').textContent;
   const feed = { title: channelTitle, description: channelDescription };
 
-  const itemElements = channel.getElementsByTagName('item');
+  const itemElements = channel.querySelectorAll('item');
   const posts = [...itemElements].map((item) => {
     const title = item.querySelector('title').textContent;
     const description = item.querySelector('description').textContent;
-    const link = item.querySelector('channel link').textContent;
+    const link = item.querySelector('link').textContent;
     return {
       title,
       description,
