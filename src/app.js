@@ -1,17 +1,18 @@
 import { string, setLocale } from 'yup';
 import onChange from 'on-change';
-import axios from 'axios';
 import i18next from 'i18next';
+import axios from 'axios';
 import { uniqueId, flatten } from 'lodash';
-import render from './view.js';
+
 import resources from './locales/index.js';
-import parseRSS from './utilities/parser.js';
+import render from './render.js';
+import parseRSS from './utils/parser.js';
 
 const defaultLanguage = 'ru';
 const timeout = 5000;
-const allOriginsLink = 'https://allorigins.hexlet.app/get';
 
 const getAxiosResponse = (url) => {
+  const allOriginsLink = 'https://allorigins.hexlet.app/get';
   const preparedURL = new URL(allOriginsLink);
   preparedURL.searchParams.set('disableCache', 'true');
   preparedURL.searchParams.set('url', url);
@@ -19,7 +20,7 @@ const getAxiosResponse = (url) => {
 };
 
 const validate = (newURL, listAddedURLs) => {
-  const schema = string().url().notOneOf(listAddedURLs);
+  const schema = string().url().notOneOf(listAddedURLs).trim();
   return schema.validate(newURL);
 };
 
@@ -173,6 +174,5 @@ export default () => {
           watchedState.readPostIds.add(postId);
         }
       });
-    })
-    .catch(console.error);
+    });
 };

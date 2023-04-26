@@ -6,7 +6,7 @@ export default {
     rssAdded: 'RSS успешно загружен',
     errors: {
       rssAlreadyExists: 'RSS уже существует',
-      notValidURL: 'Ссылка должна быть с валидным URL',
+      notValidURL: 'Ссылка должна быть валидным URL',
       dataIsNotValid: 'введенные данные невалидны',
       noRSS: 'Ресурс не содержит валидный RSS',
       NetworkError: 'Ошибка сети',
