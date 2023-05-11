@@ -5,8 +5,8 @@ import axios from 'axios';
 import { uniqueId, flatten } from 'lodash';
 
 import resources from './locales/index.js';
-import render from './view.js';
-import parseRSS from './utilities/parser.js';
+import render from './render.js';
+import parseRSS from './utils/parser.js';
 
 const defaultLanguage = 'ru';
 const timeout = 5000;
